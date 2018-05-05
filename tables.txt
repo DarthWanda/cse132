@@ -22,6 +22,8 @@ CREATE TABLE Courses(
 	Primary Key (CourseID)
 );
 
+
+/// Ajay Section
 CREATE TABLE Student(
 	PID int NOT NULL,
   SocialSecurity int NOT NULL,
@@ -83,3 +85,5 @@ Create Table DegreRequirement(
   ConcentrationMinGrade VARCHAR(20),
   Primary Key (Name)
 );
+
+/// end ajay section
