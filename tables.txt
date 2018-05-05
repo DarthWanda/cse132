@@ -1,0 +1,10 @@
+CREATE TABLE classes(
+    SectionID INT NOT NULL,
+	QuarterYear VARCHAR(20) NOT NULL,
+	Meetingtype VARCHAR(5) NOT NULL,
+	Mandatory bit Not null,
+	Building VARCHAR(20) NOT NULL,
+	CourseTitle VARCHAR(20) NOT NULL,
+	MeetingTime VARCHAR(20) NOT NULL,
+	EnrollmentLimit INT NOT NULL
+);
