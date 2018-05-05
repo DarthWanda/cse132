@@ -11,7 +11,6 @@ CREATE TABLE classes(
  	Primary Key (SectionID)
 );
 
-
 CREATE TABLE Courses(
 	CourseId int NOT NULL,
     GradeOption VARCHAR(5) NOT NULL,
@@ -21,4 +20,66 @@ CREATE TABLE Courses(
 	Units INT NOT NULL,
 	SectionID INT NOT NULL,
 	Primary Key (CourseID)
+);
+
+CREATE TABLE Student(
+	PID int NOT NULL,
+  SocialSecurity int NOT NULL,
+  middleName VARCHAR(20),
+  FirstName VARCHAR(20) NOT NULL,
+  LastName VARCHAR(20) NOT NULL,
+  College VARCHAR(20) NOT NULL,
+  Enrolled VARCHAR(20) NOT NULL,
+  Major VARCHAR(20) NOT NULL,
+  Minor VARCHAR(20),
+  Residency VARCHAR(20) NOT NULL,
+	Department VARCHAR(20) NOT NULL,
+	Program VARCHAR(20) NOT NULL,
+	Primary Key (PID)
+);
+
+CREATE TABLE ThesisCommittee(
+  PID int NOT NULL,
+  Candidacy VARCHAR(20) NOT NULL,
+  Advisor VARCHAR(20) NOT NULL,
+  Primary Key (PID)
+);
+
+CREATE TABLE Instruction(
+  PID int NOT NULL,
+  Name VARCHAR(20) NOT NULL,
+  Primary Key (PID)
+);
+
+Create Table Probation(
+  PID int NOT NULL,
+  Reason VARCHAR(20) NOT NULL,
+  Primary Key (PID)
+);
+
+Create Table ReviewSession(
+  SectionID INT NOT NULL,
+  Date VARCHAR(20) NOT NULL,
+  Time VARCHAR(20) NOT NULL,
+  Room VARCHAR(20) NOT NULL,
+  Primary Key (SectionID)
+);
+
+Create Table DegreRequirement(
+  Name VARCHAR(20) NOT NULL,
+  UnitsRequired INT NOT NULL,
+  MinGrade VARCHAR(20) NOT NULL,
+  Category1 VARCHAR(20),
+  UnitsRequired1 INT,
+  MinGrade1 VARCHAR(20),
+  Category2 VARCHAR(20),
+  UnitsRequired2 INT,
+  MinGrade2 VARCHAR(20),
+  Category3 VARCHAR(20),
+  UnitsRequired3 INT,
+  MinGrade3 VARCHAR(20),
+  Concentration VARCHAR(20),
+  ConcentrationUnits INT,
+  ConcentrationMinGrade VARCHAR(20),
+  Primary Key (Name)
 );
