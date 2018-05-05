@@ -1,3 +1,4 @@
+drop Table classes;
 CREATE TABLE classes(
     SectionID INT NOT NULL,
 	QuarterYear VARCHAR(20) NOT NULL,
@@ -6,5 +7,18 @@ CREATE TABLE classes(
 	Building VARCHAR(20) NOT NULL,
 	CourseTitle VARCHAR(20) NOT NULL,
 	MeetingTime VARCHAR(20) NOT NULL,
-	EnrollmentLimit INT NOT NULL
+	EnrollmentLimit INT NOT NULL,
+ 	Primary Key (SectionID)
+);
+
+
+CREATE TABLE Courses(
+	CourseId int NOT NULL,
+    GradeOption VARCHAR(5) NOT NULL,
+	Lab VARCHAR(5) NOT NULL,
+	CourseTitle VARCHAR(20) NOT NULL,
+	Department VARCHAR(20) Not null,
+	Units INT NOT NULL,
+	SectionID INT NOT NULL,
+	Primary Key (CourseID)
 );
