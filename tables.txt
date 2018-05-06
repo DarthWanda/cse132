@@ -79,14 +79,14 @@ CREATE TABLE Student(
 	Primary Key (PID)
 );
 
-CREATE TABLE ThesisCommittee(
+CREATE TABLE thesisCommittee(
   PID int NOT NULL,
   Candidacy VARCHAR(20) NOT NULL,
   Advisor VARCHAR(20) NOT NULL,
   Primary Key (PID)
 );
 
-CREATE TABLE Instruction(
+CREATE TABLE Instructor(
   PID int NOT NULL,
   Name VARCHAR(20) NOT NULL,
   Primary Key (PID)
@@ -106,7 +106,7 @@ Create Table ReviewSession(
   Primary Key (SectionID)
 );
 
-Create Table DegreRequirement(
+Create Table DegreeRequirement(
   Name VARCHAR(20) NOT NULL,
   UnitsRequired INT NOT NULL,
   MinGrade VARCHAR(20) NOT NULL,
