@@ -32,12 +32,12 @@
                         conn.setAutoCommit(false);
 
                         // Create the prepared statement and use it to
-                        // INSERT the student attributes INTO the Student table.
+                        // INSERT the thesisCommittee attributes INTO the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "INSERT INTO ThesisCommittee VALUES (?, ?, ?)");
+                            "INSERT INTO thesisCommittee VALUES (?, ?, ?)");
 
                         pstmt.setInt(1, Integer.parseInt(request.getParameter("PID")));
-                        pstmt.setString(2, request.getParameter("Canidacy"));
+                        pstmt.setString(2, request.getParameter("Candidacy"));
                         pstmt.setString(3, request.getParameter("Advisor"));
                         int rowCount = pstmt.executeUpdate();
 
@@ -47,6 +47,52 @@
                     }
             %>
 
+            <%-- -------- UPDATE Code -------- --%>
+            <%
+                    // Check if an update is requested
+                    if (action != null && action.equals("update")) {
+
+                        // Begin transaction
+                        conn.setAutoCommit(false);
+
+                        // Create the prepared statement and use it to
+                        // UPDATE the student attributes in the Student table.
+                        PreparedStatement pstmt = conn.prepareStatement(
+                            "UPDATE thesisCommittee SET PID = ?, Candidacy = ?, Advisor = ? ");
+
+                        pstmt.setInt(1, Integer.parseInt(request.getParameter("PID")));
+                        pstmt.setString(2, request.getParameter("Candidacy"));
+                        pstmt.setString(3, request.getParameter("Advisor"));
+                        int rowCount = pstmt.executeUpdate();
+
+                        // Commit transaction
+                         conn.commit();
+                        conn.setAutoCommit(true);
+                    }
+            %>
+
+            <%-- -------- DELETE Code -------- --%>
+            <%
+                    // Check if a delete is requested
+                    if (action != null && action.equals("delete")) {
+
+                        // Begin transaction
+                        conn.setAutoCommit(false);
+
+                        // Create the prepared statement and use it to
+                        // DELETE the student FROM the Student table.
+                        PreparedStatement pstmt = conn.prepareStatement(
+                            "DELETE FROM thesisCommittee WHERE PID = ?");
+
+                        pstmt.setInt(
+                            1, Integer.parseInt(request.getParameter("PID")));
+                        int rowCount = pstmt.executeUpdate();
+
+                        // Commit transaction
+                         conn.commit();
+                        conn.setAutoCommit(true);
+                    }
+            %>
 
             <%-- -------- SELECT Statement Code -------- --%>
             <%
@@ -56,22 +102,22 @@
                     // Use the created statement to SELECT
                     // the student attributes FROM the Student table.
                     ResultSet rs = statement.executeQuery
-                        ("SELECT * FROM ThesisCommittee");
+                        ("SELECT * FROM thesisCommittee");
             %>
 
             <!-- Add an HTML table header row to format the results -->
                 <table border="1">
                     <tr>
                         <th>PID</th>
-                        <th>Canidacy</th>
+                        <th>Candidacy</th>
                         <th>Advisor</th>
                         <th>Action</th>
                     </tr>
                     <tr>
-                        <form action="ThesisCommittee.jsp" method="get">
+                        <form action="thesisCommittee.jsp" method="get">
                             <input type="hidden" value="insert" name="action">
                             <th><input value="" name="PID" size="10"></th>
-                            <th><input value="" name="Canidacy" size="20"></th>
+                            <th><input value="" name="Candidacy" size="20"></th>
                             <th><input value="" name="Advisor" size="20"></th>
                             <th><input type="submit" value="Insert"></th>
                         </form>
@@ -86,30 +132,30 @@
             %>
 
                     <tr>
-                        <form action="ThesisCommittee.jsp" method="get">
+                        <form action="thesisCommittee.jsp" method="get">
                             <input type="hidden" value="update" name="action">
 
-                            <%-- Get the PID --%>
                             <td>
-                                <input value="<%= rs.getString("PID") %>"
+                                <input value="<%= rs.getInt("PID") %>"
                                     name="PID" size="10">
                             </td>
 
+                            <%-- Get the FIRSTNAME --%>
                             <td>
-                                <input value="<%= rs.getString("Canidacy") %>"
-                                    name="Canidacy" size="20">
+                                <input value="<%= rs.getString("Candidacy") %>"
+                                    name="Candidacy" size="20">
                             </td>
-
                             <td>
                                 <input value="<%= rs.getString("Advisor") %>"
                                     name="Advisor" size="20">
                             </td>
+
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Update">
                             </td>
                         </form>
-                        <form action="ThesisCommittee.jsp" method="get">
+                        <form action="thesisCommittee.jsp" method="get">
                             <input type="hidden" value="delete" name="action">
                             <input type="hidden"
                                 value="<%= rs.getInt("PID") %>" name="PID">
