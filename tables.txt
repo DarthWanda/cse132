@@ -125,4 +125,13 @@ Create Table DegreeRequirement(
   Primary Key (Name)
 );
 
+Create Table Clubs(
+  ClubID INT NOT NULL,
+  Name VARCHAR(20) NOT NULL,
+  Advisor VARCHAR(20) NOT NULL,
+  MeetingPlace VARCHAR(20) NOT NULL,
+  Description VARCHAR(20) NOT NULL,
+  Primary Key (Name)
+);
+
 /// end ajay section
