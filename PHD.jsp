@@ -32,12 +32,14 @@
                         conn.setAutoCommit(false);
 
                         // Create the prepared statement and use it to
-                        // INSERT the instructor attributes INTO the instructor table.
+                        // INSERT the PHD attributes INTO the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "INSERT INTO instructor VALUES (?, ?)");
+                            "INSERT INTO PHD VALUES (?, ?, ?,?)");
 
                         pstmt.setInt(1, Integer.parseInt(request.getParameter("PID")));
-                        pstmt.setString(2, request.getParameter("Name"));
+                        pstmt.setString(2, request.getParameter("Candidacy"));
+                        pstmt.setString(3, request.getParameter("Advisor"));
+                        pstmt.setInt(4, Integer.parseInt(request.getParameter("TID")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -55,12 +57,14 @@
                         conn.setAutoCommit(false);
 
                         // Create the prepared statement and use it to
-                        // UPDATE the instructor attributes in the instructor table.
+                        // UPDATE the student attributes in the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "UPDATE instructor SET ID = ?, Name = ?, ");
+                            "UPDATE PHD SET PID = ?, Candidacy = ?, Advisor = ? ,TID = ?");
 
                         pstmt.setInt(1, Integer.parseInt(request.getParameter("PID")));
-                        pstmt.setString(2, request.getParameter("Name"));
+                        pstmt.setString(2, request.getParameter("Candidacy"));
+                        pstmt.setString(3, request.getParameter("Advisor"));
+                        pstmt.setInt(4, Integer.parseInt(request.getParameter("TID")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -78,9 +82,9 @@
                         conn.setAutoCommit(false);
 
                         // Create the prepared statement and use it to
-                        // DELETE the instructor FROM the instructor table.
+                        // DELETE the student FROM the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "DELETE FROM instructor WHERE PID = ?");
+                            "DELETE FROM PHD WHERE PID = ?");
 
                         pstmt.setInt(
                             1, Integer.parseInt(request.getParameter("PID")));
@@ -98,24 +102,27 @@
                     Statement statement = conn.createStatement();
 
                     // Use the created statement to SELECT
-                    // the instructor attributes FROM the instructor table.
+                    // the student attributes FROM the Student table.
                     ResultSet rs = statement.executeQuery
-                        ("SELECT * FROM instructor");
+                        ("SELECT * FROM PHD");
             %>
 
             <!-- Add an HTML table header row to format the results -->
                 <table border="1">
                     <tr>
                         <th>PID</th>
-                        <th>Name</th>
+                        <th>Candidacy</th>
+                        <th>Advisor</th>
+                        <th>TID</th>
                         <th>Action</th>
                     </tr>
                     <tr>
-                        <form action="instructor.jsp" method="get">
+                        <form action="PHD.jsp" method="get">
                             <input type="hidden" value="insert" name="action">
                             <th><input value="" name="PID" size="10"></th>
-                            <th><input value="" name="ID" size="10"></th>
-                            <th><input value="" name="Name" size="20"></th>
+                            <th><input value="" name="Candidacy" size="20"></th>
+                            <th><input value="" name="Advisor" size="20"></th>
+                            <th><input value="" name="TID" size="20"></th>
                             <th><input type="submit" value="Insert"></th>
                         </form>
                     </tr>
@@ -129,19 +136,27 @@
             %>
 
                     <tr>
-                        <form action="instructor.jsp" method="get">
+                        <form action="PHD.jsp" method="get">
                             <input type="hidden" value="update" name="action">
 
-                            <%-- Get the ID --%>
                             <td>
-                                <input value="<%= rs.getString("PID") %>"
+                                <input value="<%= rs.getInt("PID") %>"
                                     name="PID" size="10">
                             </td>
 
                             <%-- Get the FIRSTNAME --%>
                             <td>
-                                <input value="<%= rs.getString("Name") %>"
-                                    name="Name" size="20">
+                                <input value="<%= rs.getString("Candidacy") %>"
+                                    name="Candidacy" size="20">
+                            </td>
+                            <td>
+                                <input value="<%= rs.getString("Advisor") %>"
+                                    name="Advisor" size="20">
+                            </td>
+
+                            <td>
+                                <input value="<%= rs.getInt("TID") %>"
+                                    name="TID" size="10">
                             </td>
 
                             <%-- Button --%>
@@ -149,10 +164,10 @@
                                 <input type="submit" value="Update">
                             </td>
                         </form>
-                        <form action="instructor.jsp" method="get">
+                        <form action="PHD.jsp" method="get">
                             <input type="hidden" value="delete" name="action">
                             <input type="hidden"
-                                value="<%= rs.getInt("SSN") %>" name="SSN">
+                                value="<%= rs.getInt("PID") %>" name="PID">
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Delete">

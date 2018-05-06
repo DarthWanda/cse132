@@ -79,17 +79,22 @@ CREATE TABLE Student(
 	Primary Key (PID)
 );
 
-CREATE TABLE thesisCommittee(
+drop table thesisCommittee;
+CREATE TABLE PHD(
   PID int NOT NULL,
   Candidacy VARCHAR(20) NOT NULL,
   Advisor VARCHAR(20) NOT NULL,
+  TID int NOT NULL,
   Primary Key (PID)
 );
 
-CREATE TABLE Instructor(
-  PID int NOT NULL,
-  Name VARCHAR(20) NOT NULL,
-  Primary Key (PID)
+drop table instructor;
+CREATE TABLE thesisCommittee(
+  TID int NOT NULL,
+  Name1 VARCHAR(20) NOT NULL,
+  Name2 VARCHAR(20) NOT NULL,
+  Name3 VARCHAR(20) NOT NULL,
+  Primary Key (TID)
 );
 
 Create Table Probation(
