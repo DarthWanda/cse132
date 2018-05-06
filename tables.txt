@@ -13,15 +13,16 @@ CREATE TABLE classes(
 );
 
 
+drop Table courses;
 CREATE TABLE Courses(
 	CourseId int NOT NULL,
-    GradeOption VARCHAR(5) NOT NULL,
-	Lab VARCHAR(5) NOT NULL,
-	CourseTitle VARCHAR(20) NOT NULL,
-	Department VARCHAR(20) Not null,
-	Units INT NOT NULL,
-	SectionID INT NOT NULL,
-  flexible INT NOT NULL,
+  GradeOption VARCHAR(5) ,
+	Lab int ,
+	CourseTitle VARCHAR(20),
+	Department VARCHAR(20),
+	Units INT,
+	SectionID INT,
+ 	flexible INT,
 	Primary Key (CourseID)
 );
 
@@ -60,7 +61,7 @@ CREATE TABLE Enrollment(
 CREATE TABLE Student(
 	PID int NOT NULL,
   SocialSecurity int NOT NULL,
-  middleName VARCHAR(20),
+  MiddleName VARCHAR(20),
   FirstName VARCHAR(20) NOT NULL,
   LastName VARCHAR(20) NOT NULL,
   College VARCHAR(20) NOT NULL,
