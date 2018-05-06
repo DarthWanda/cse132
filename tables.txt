@@ -6,7 +6,7 @@ CREATE TABLE classes(
 	Meetingtype VARCHAR(5),
 	Mandatory int,
 	Building VARCHAR(20),
-	CourseTitle VARCHAR(20),
+	CourseID int,
 	MeetingTime VARCHAR(20),
 	EnrollmentLimit INT,
  	Primary Key (SectionID)
@@ -21,38 +21,43 @@ CREATE TABLE Courses(
 	CourseTitle VARCHAR(20),
 	Department VARCHAR(20),
 	Units INT,
-	SectionID INT,
  	flexible INT,
 	Primary Key (CourseID)
 );
 
+
 CREATE TABLE Faculty(
 	NAME VARCHAR(20) NOT NULL,
-	Title VARCHAR(20) NOT NULL,
+	Title VARCHAR(20),
  	Primary Key (NAME)
 );
 
+drop Table TaughtBy;
 CREATE TABLE TaughtBy(
 	NAME VARCHAR(20) NOT NULL,
 	SectionID int NOT NULL,
- 	Primary Key (NAME,SectionID)
+  TeachID int NOT NULL,
+ 	Primary Key (TeachID)
 );
 
 drop Table Schedule;
 CREATE TABLE Schedule(
 	PID int NOT NULL,
 	Sectionid int NOT NULL,
-	GRADINGOPTION VARCHAR(20),
-  QuarterYear VARCHAR(20) NOT NULL,
-	GRADE VARCHAR(20) NOT NULL,
- 	Primary Key (PID,SectionID)
+	GRADEOPTION VARCHAR(20),
+  QuarterYear VARCHAR(20) ,
+	GRADE VARCHAR(20) ,
+  ScheduleId int NOT NULL,
+ 	Primary Key (ScheduleId)
 );
 
+drop Table Enrollment;
 CREATE TABLE Enrollment(
 	PID int NOT NULL,
 	CourseId int NOT NULL,
 	WAITLIST int NOT NULL,
- 	Primary Key (PID,CourseId)
+  EnrollmentId int NOT NULL,
+ 	Primary Key (EnrollmentId)
 );
 /// Andy's Section
 

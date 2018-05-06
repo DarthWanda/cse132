@@ -34,7 +34,7 @@
                         // Create the prepared statement and use it to
                         // INSERT the student attributes INTO the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "INSERT INTO Courses VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                            "INSERT INTO Courses VALUES (?, ?, ?, ?, ?, ?, ?)");
 
                         pstmt.setInt(1, Integer.parseInt(request.getParameter("COURSEID")));
                         pstmt.setString(2, request.getParameter("GRADEOPTION"));
@@ -43,8 +43,7 @@
                         pstmt.setString(5, request.getParameter("DEPARTMENT"));
 
                         pstmt.setInt(6, Integer.parseInt(request.getParameter("UNITS")));
-                        pstmt.setInt(7, Integer.parseInt(request.getParameter("SECTIONID")));
-                        pstmt.setInt(8, Integer.parseInt(request.getParameter("FLEXIBLE")));
+                        pstmt.setInt(7, Integer.parseInt(request.getParameter("FLEXIBLE")));
 
                         int rowCount = pstmt.executeUpdate();
 
@@ -65,16 +64,18 @@
                         // Create the prepared statement and use it to
                         // UPDATE the student attributes in the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "UPDATE Student SET ID = ?, FIRSTNAME = ?, " +
-                            "MIDDLENAME = ?, LASTNAME = ?, RESIDENCY = ? WHERE SSN = ?");
+                            "UPDATE courses SET GRADEOPTION = ?, LAB = ?, " +
+                            "COURSETITLE = ?, DEPARTMENT = ?, UNITS = ?,  FLEXIBLE = ? WHERE COURSEID = ?");
 
-                        pstmt.setInt(1, Integer.parseInt(request.getParameter("ID")));
-                        pstmt.setString(2, request.getParameter("FIRSTNAME"));
-                        pstmt.setString(3, request.getParameter("MIDDLENAME"));
-                        pstmt.setString(4, request.getParameter("LASTNAME"));
-                        pstmt.setString(5, request.getParameter("RESIDENCY"));
-                        pstmt.setInt(
-                            6, Integer.parseInt(request.getParameter("SSN")));
+
+                            pstmt.setString(1, request.getParameter("GRADEOPTION"));
+                            pstmt.setInt(2, Integer.parseInt(request.getParameter("LAB")));
+                            pstmt.setString(3, request.getParameter("COURSETITLE"));
+                            pstmt.setString(4, request.getParameter("DEPARTMENT"));
+
+                            pstmt.setInt(5, Integer.parseInt(request.getParameter("UNITS")));
+                            pstmt.setInt(6, Integer.parseInt(request.getParameter("FLEXIBLE")));
+                            pstmt.setInt(7, Integer.parseInt(request.getParameter("COURSEID")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -94,10 +95,10 @@
                         // Create the prepared statement and use it to
                         // DELETE the student FROM the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "DELETE FROM Student WHERE SSN = ?");
+                            "DELETE FROM Courses WHERE COURSEID = ?");
 
                         pstmt.setInt(
-                            1, Integer.parseInt(request.getParameter("SSN")));
+                            1, Integer.parseInt(request.getParameter("COURSEID")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -126,20 +127,18 @@
                         <th>CourseTitle</th>
                         <th>Department</th>
                         <th>Units</th>
-                        <th>SectionID</th>
                         <th>Flexible</th>
                         <th>Action</th>
                     </tr>
                     <tr>
                         <form action="courses.jsp" method="get">
-                            <input type="hidden" value="update" name="action">
+                            <input type="hidden" value="insert" name="action">
                             <th><input value="" name="COURSEID" size="10"></th>
                             <th><input value="" name="GRADEOPTION" size="10"></th>
                             <th><input value="" name="LAB" size="15"></th>
                             <th><input value="" name="COURSETITLE" size="15"></th>
                             <th><input value="" name="DEPARTMENT" size="15"></th>
                             <th><input value="" name="UNITS" size="15"></th>
-                            <th><input value="" name="SECTIONID" size="15"></th>
                             <th><input value="" name="FLEXIBLE" size="15"></th>
                             <th><input type="submit" value="Insert"></th>
                         </form>
@@ -191,10 +190,6 @@
                                     name="UNITS" size="15">
                             </td>
 
-                            <td>
-                                <input value="<%= rs.getString("SECTIONID") %>"
-                                    name="SECTIONID" size="15">
-                            </td>
 
                             <td>
                                 <input value="<%= rs.getString("FLEXIBLE") %>"
@@ -207,10 +202,10 @@
                                 <input type="submit" value="Update">
                             </td>
                         </form>
-                        <form action="students.jsp" method="get">
+                        <form action="courses.jsp" method="get">
                             <input type="hidden" value="delete" name="action">
                             <input type="hidden"
-                                value="<%= rs.getInt("SSN") %>" name="SSN">
+                                value="<%= rs.getInt("COURSEID") %>" name="COURSEID">
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Delete">

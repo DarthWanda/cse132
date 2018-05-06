@@ -12,7 +12,7 @@
             <%-- Set the scripting language to Java and --%>
             <%-- Import the java.sql package --%>
             <%@ page language="java" import="java.sql.*" %>
-    
+
             <%-- -------- Open Connection Code -------- --%>
             <%
                 try {
@@ -30,7 +30,7 @@
 
                         // Begin transaction
                         conn.setAutoCommit(false);
-                        
+
                         // Create the prepared statement and use it to
                         // INSERT the student attributes INTO the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
@@ -58,7 +58,7 @@
 
                         // Begin transaction
                         conn.setAutoCommit(false);
-                        
+
                         // Create the prepared statement and use it to
                         // UPDATE the student attributes in the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
@@ -87,7 +87,7 @@
 
                         // Begin transaction
                         conn.setAutoCommit(false);
-                        
+
                         // Create the prepared statement and use it to
                         // DELETE the student FROM the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
@@ -131,7 +131,7 @@
                             <th><input value="" name="SSN" size="10"></th>
                             <th><input value="" name="ID" size="10"></th>
                             <th><input value="" name="FIRSTNAME" size="15"></th>
-                <th><input value="" name="MIDDLENAME" size="15"></th>
+                            <th><input value="" name="MIDDLENAME" size="15"></th>
                             <th><input value="" name="LASTNAME" size="15"></th>
                             <th><input value="" name="RESIDENCY" size="15"></th>
                             <th><input type="submit" value="Insert"></th>
@@ -141,9 +141,9 @@
             <%-- -------- Iteration Code -------- --%>
             <%
                     // Iterate over the ResultSet
-        
+
                     while ( rs.next() ) {
-        
+
             %>
 
                     <tr>
@@ -152,40 +152,40 @@
 
                             <%-- Get the SSN, which is a number --%>
                             <td>
-                                <input value="<%= rs.getInt("SSN") %>" 
+                                <input value="<%= rs.getInt("SSN") %>"
                                     name="SSN" size="10">
                             </td>
-    
+
                             <%-- Get the ID --%>
                             <td>
-                                <input value="<%= rs.getString("ID") %>" 
+                                <input value="<%= rs.getString("ID") %>"
                                     name="ID" size="10">
                             </td>
-    
+
                             <%-- Get the FIRSTNAME --%>
                             <td>
                                 <input value="<%= rs.getString("FIRSTNAME") %>"
                                     name="FIRSTNAME" size="15">
                             </td>
-    
+
                             <%-- Get the LASTNAME --%>
                             <td>
-                                <input value="<%= rs.getString("MIDDLENAME") %>" 
+                                <input value="<%= rs.getString("MIDDLENAME") %>"
                                     name="MIDDLENAME" size="15">
                             </td>
-    
+
                 <%-- Get the LASTNAME --%>
                             <td>
-                                <input value="<%= rs.getString("LASTNAME") %>" 
+                                <input value="<%= rs.getString("LASTNAME") %>"
                                     name="LASTNAME" size="15">
                             </td>
 
                             <%-- Get the COLLEGE --%>
                             <td>
-                                <input value="<%= rs.getString("RESIDENCY") %>" 
+                                <input value="<%= rs.getString("RESIDENCY") %>"
                                     name="RESIDENCY" size="15">
                             </td>
-    
+
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Update">
@@ -193,7 +193,7 @@
                         </form>
                         <form action="students.jsp" method="get">
                             <input type="hidden" value="delete" name="action">
-                            <input type="hidden" 
+                            <input type="hidden"
                                 value="<%= rs.getInt("SSN") %>" name="SSN">
                             <%-- Button --%>
                             <td>
@@ -209,10 +209,10 @@
             <%
                     // Close the ResultSet
                     rs.close();
-    
+
                     // Close the Statement
                     statement.close();
-    
+
                     // Close the Connection
                     conn.close();
                 } catch (SQLException sqle) {
