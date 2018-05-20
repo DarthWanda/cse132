@@ -29,6 +29,8 @@ INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('P 
 INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Intro to logic', 'PHIL10','0','wi2019');
 INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('SR', 'PHIL12','1','sp2019');
 INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('FEL', 'PHIL165','1','sp2019');
+
+
 drop Table courses;
 CREATE TABLE Courses(
 	CourseId int NOT NULL,

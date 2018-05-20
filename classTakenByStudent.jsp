@@ -44,12 +44,7 @@
                         <th>LastName</th>
                         <th>Degree</th>
                     </tr>
-                    <tr>
-                            <th><input value="" name="SocialSecurity" size="10"></th>
-                            <th><input value="" name="FirstName" size="20"></th>
-                            <th><input value="" name="LastName" size="20"></th>
-                            <th><input value="" name="Program" size="20"></th>
-                    </tr>
+
 
             <%-- -------- Iteration Code -------- --%>
             <%
