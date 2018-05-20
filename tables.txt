@@ -1,7 +1,12 @@
 /// Andy's Section
 drop Table classes;
 CREATE TABLE classes(
-    SectionID INT NOT NULL,
+  Title VARCHAR(40),
+  CourseNumber VARCHAR(20) unique,
+  CurrentlyTaught int,
+  NextOffered VARCHAR(20),
+
+  SectionID INT,
 	QuarterYear VARCHAR(20),
 	Meetingtype VARCHAR(5),
 	Mandatory int,
@@ -9,10 +14,21 @@ CREATE TABLE classes(
 	CourseID int,
 	MeetingTime VARCHAR(20),
 	EnrollmentLimit INT,
- 	Primary Key (SectionID)
+ 	Primary Key (Title)
 );
 
-
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Intro to CS, JAVA', 'CSE8A','1','sp2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Intro to Theory', 'CSE105','1','fa2018');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Probabilistic Reasoning', 'CSE250A','0','wi2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Machine Learning', 'CSE250B','0','fa2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Data mining', 'CSE255','1','wi2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Databases', 'CSE232A','0','sp2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('OP System', 'CSE221','1','fa2018');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Computational Method', 'MAE107','0','sp2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('P and S', 'MAE108','1','fa2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Intro to logic', 'PHIL10','0','wi2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('SR', 'PHIL12','1','sp2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('FEL', 'PHIL165','1','sp2019');
 drop Table courses;
 CREATE TABLE Courses(
 	CourseId int NOT NULL,
@@ -53,31 +69,103 @@ CREATE TABLE Schedule(
 
 drop Table Enrollment;
 CREATE TABLE Enrollment(
-	PID int NOT NULL,
-	CourseId int NOT NULL,
-	WAITLIST int NOT NULL,
-  EnrollmentId int NOT NULL,
- 	Primary Key (EnrollmentId)
+	FirstName VARCHAR(20) NOT NULL,
+	SECTIONNUMBER int NOT NULL,
+  GRADEOPTION VARCHAR(20),
+  Units INT,
+ 	Primary Key (FirstName,SECTIONNUMBER),
+  FOREIGN KEY (FirstName) REFERENCES Student(firstname),
+  FOREIGN KEY (SECTIONNUMBER) REFERENCES section(SECTIONNUMBER)
 );
+
+INSERT INTO Enrollment VALUES ('Dave', 2,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Nelson', 9,'S/U',4);
+INSERT INTO Enrollment VALUES ('Andrew', 5,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Nathan', 2,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('John', 9,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Anwell', 5,'S/U',4);
+INSERT INTO Enrollment VALUES ('Tim', 3,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Dave', 3,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Nelson', 3,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Benjamin', 10,'S/U',4);
+INSERT INTO Enrollment VALUES ('Julie', 10,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Daniel', 10,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Michael', 1,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Joseph', 1,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Devin', 8,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Claire', 6,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Rachel', 4,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Zach', 7,'S/U',4);
+INSERT INTO Enrollment VALUES ('Justin', 4,'Letter Grade',4);
+INSERT INTO Enrollment VALUES ('Rahul', 7,'Letter Grade',4);
+
+drop Table Section;
+CREATE TABLE SECTION(
+  SECTIONNUMBER int NOT NULL,
+  COURSENUMBER VARCHAR(20),
+  QUARTER VARCHAR(20),
+  YEAR INT,
+  MeetingTimeLEC VARCHAR(20),
+  MeetingTimeDIS VARCHAR(20),
+  Primary Key (SECTIONNUMBER)
+);
+
+INSERT INTO SECTION VALUES (1, 'MAE108','sp',2018,'MWF 10:00am');
+INSERT INTO SECTION VALUES (2, 'CSE221','sp',2018,'MWF 10:00am');
+INSERT INTO SECTION VALUES (3, 'CSE255','sp',2018,'MWF 10:00am');
+INSERT INTO SECTION VALUES (4, 'PHIL12','sp',2018,'MWF 10:00am');
+INSERT INTO SECTION VALUES (5, 'CSE221','sp',2018,'MWF 10:00am');
+INSERT INTO SECTION VALUES (6, 'CSE105','sp',2018,'TueThu 2:00pm','F 6:00pm');
+INSERT INTO SECTION VALUES (7, 'PHIL165','sp',2018,'TueThu 3:00pm');
+INSERT INTO SECTION VALUES (8, 'MAE108','sp',2018,'TueThu 3:00pm');
+INSERT INTO SECTION VALUES (9, 'CSE221','sp',2018,'TueThu 5:00pm');
+INSERT INTO SECTION VALUES (10, 'CSE8A','sp',2018,'TueThu 5:00pm','W 7:00pm');
+
 /// Andy's Section
 
 
 /// Ajay Section
+drop Table Enrollment;
+drop table student;
 CREATE TABLE Student(
-	PID int NOT NULL,
+	PID int,
   SocialSecurity int NOT NULL,
   MiddleName VARCHAR(20),
-  FirstName VARCHAR(20) NOT NULL,
+  FirstName VARCHAR(20) NOT NULL UNIQUE,
   LastName VARCHAR(20) NOT NULL,
-  College VARCHAR(20) NOT NULL,
-  Enrolled VARCHAR(20) NOT NULL,
-  Major VARCHAR(20) NOT NULL,
+  College VARCHAR(20),
+  Enrolled VARCHAR(20),
+  Major VARCHAR(20),
   Minor VARCHAR(20),
-  Residency VARCHAR(20) NOT NULL,
-	Department VARCHAR(20) NOT NULL,
-	Program VARCHAR(20) NOT NULL,
-	Primary Key (PID)
+  Residency VARCHAR(20),
+	Department VARCHAR(20),
+	Program VARCHAR(40),
+	Primary Key (SocialSecurity)
 );
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (1, 'Benjamin','B','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (2, 'Kristen','W','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (3, 'Daniel','F','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (4, 'Claire','J','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (5, 'Julie','C','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (6, 'Kevin','L','B.S in Mechanical Engineering');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (7, 'Michael','B','B.S in Mechanical Engineering');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (8, 'Joseph','J','B.S in Mechanical Engineering');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (9, 'Devin','P','B.S in Mechanical Engineering');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (10, 'Logan','F','B.S in Mechanical Engineering');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (11, 'Vikram','N','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (12, 'Rachel','Z','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (13, 'Zach','M','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (14, 'Justin','H','B.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (15, 'Rahul','R','B.S in Computer Science');
+
+
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (16, 'Dave','C','M.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (17, 'Nelson','H','M.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (18, 'Andrew','P','M.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (19, 'Nathan','S','M.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (20, 'John','H','M.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (21, 'Anwell','W','M.S in Computer Science');
+INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (22, 'Tim','K','M.S in Computer Science');
 
 drop table thesisCommittee;
 CREATE TABLE PHD(
@@ -140,3 +228,7 @@ Create Table Clubs(
 );
 
 /// end ajay section
+
+
+//insert Statement
+//insert to studet
