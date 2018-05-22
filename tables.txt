@@ -5,7 +5,6 @@ CREATE TABLE classes(
   CourseNumber VARCHAR(20) unique,
   CurrentlyTaught int,
   NextOffered VARCHAR(20),
-
   SectionID INT,
 	QuarterYear VARCHAR(20),
 	Meetingtype VARCHAR(5),
@@ -17,18 +16,20 @@ CREATE TABLE classes(
  	Primary Key (Title)
 );
 
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Intro to CS, JAVA', 'CSE8A','1','sp2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Intro to Theory', 'CSE105','1','fa2018');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Probabilistic Reasoning', 'CSE250A','0','wi2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Machine Learning', 'CSE250B','0','fa2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Data mining', 'CSE255','1','wi2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Databases', 'CSE232A','0','sp2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('OP System', 'CSE221','1','fa2018');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Computational Method', 'MAE107','0','sp2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('P and S', 'MAE108','1','fa2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('Intro to logic', 'PHIL10','0','wi2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('SR', 'PHIL12','1','sp2019');
-INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered) VALUES ('FEL', 'PHIL165','1','sp2019');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Intro to CS, JAVA', 'CSE8A','1','sp2019', 'sp2018', '1');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Intro to Theory', 'CSE105','1','fa2018', 'sp2018', '2');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Probabilistic Reasoning', 'CSE250A','0','wi2019', 'sp2018', '3');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Machine Learning', 'CSE250B','0','fa2019', 'sp2018', '4');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Data mining', 'CSE255','1','wi2019', 'sp2018', '5');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Databases', 'CSE232A','0','sp2019', 'sp2018', '6');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('OP System', 'CSE221','1','fa2018', 'sp2018', '7');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Computational Method', 'MAE107','0','sp2019', 'sp2018', '8');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('P and S', 'MAE108','1','fa2019', 'sp2018', '9');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('Intro to logic', 'PHIL10','0','wi2019', 'sp2018', '10');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('SR', 'PHIL12','1','sp2019', 'sp2018', '11');
+INSERT INTO classes (Title,CourseNumber,CurrentlyTaught,NextOffered, 'QuarterYear', 'SectionID') VALUES ('FEL', 'PHIL165','1','sp2019', 'sp2018', '12');
+
+update classes set sectionID = 1 where Title = 'Intro to CS, JAVA'
 
 
 drop Table courses;
@@ -43,6 +44,7 @@ CREATE TABLE Courses(
 	Primary Key (CourseID)
 );
 
+Insert into courses ( 1, 'letter', '0', int)
 
 CREATE TABLE Faculty(
 	NAME VARCHAR(20) NOT NULL,
@@ -68,6 +70,11 @@ CREATE TABLE Schedule(
   ScheduleId int NOT NULL,
  	Primary Key (ScheduleId)
 );
+
+Insert into Schedule Values ('1', '1', 'letter', 'sp2018', 'A', '1' );
+Insert into Schedule Values ('2', '1', 'letter', 'sp2018', 'B', '2' );
+Insert into Schedule Values ('1', '2', 'letter', 'sp2018', 'A', '3' );
+Insert into Schedule Values ('1', '3', 'letter', 'fa2018', 'A', '4' );
 
 drop Table Enrollment;
 CREATE TABLE Enrollment(
@@ -168,6 +175,12 @@ INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (19, 'Nat
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (20, 'John','H','M.S in Computer Science');
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (21, 'Anwell','W','M.S in Computer Science');
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (22, 'Tim','K','M.S in Computer Science');
+
+//
+drop table student;
+UPDATE Student
+SET MiddleName = 'D'
+WHERE SSN is not null
 
 drop table thesisCommittee;
 CREATE TABLE PHD(
