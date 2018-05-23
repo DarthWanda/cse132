@@ -75,6 +75,7 @@ Insert into Schedule Values ('1', '1', 'letter', 'sp2018', 'A', '1' );
 Insert into Schedule Values ('2', '1', 'letter', 'sp2018', 'B', '2' );
 Insert into Schedule Values ('1', '2', 'letter', 'sp2018', 'A', '3' );
 Insert into Schedule Values ('1', '3', 'letter', 'fa2018', 'A', '4' );
+Insert into Schedule Values ('1', '4', 'letter', 'fa2018', 'A', '3' );
 
 drop Table Enrollment;
 CREATE TABLE Enrollment(
