@@ -136,15 +136,16 @@
             <!-- Add an HTML table header row to format the results -->
                 <table border="1">
                     <tr>
-                        <th>SSN</th>
                         <th>DegreeName</th>
+                        <th>SSN</th>
                         <th>Action</th>
                     </tr>
                     <tr>
                         <form action="degreeRequirementforBSC.jsp" method="get">
                             <input type="hidden" value="query" name="action">
-                            <th><input value="" name="SocialSecurity" size="10"></th>
                             <th><input value="" name="Degreename" size="40"></th>
+                            <th><input value="" name="SocialSecurity" size="10"></th>
+
                             <th><input type="submit" value="Query"></th>
                         </form>
                     </tr>
@@ -156,10 +157,10 @@
                     String action = request.getParameter("action");
 
                     if (action != null && action.equals("query")) {
-                      PreparedStatement pstmt = conn.prepareStatement(
-                          "SELECT * FROM STUDENT WHERE SocialSecurity = ?");
-                      pstmt.setInt(
-                          1, Integer.parseInt(request.getParameter("SocialSecurity")));
+                      PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.totalunits from degreerequirement where degreerequirement.degreename = ?)-(Select sum(schedule.unit) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category = ? AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
+                      pstmt.setString(1, request.getParameter("Degreename"));
+                      pstmt.setString(2, request.getParameter("Degreename"));
+                      pstmt.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
 
                       rs1 = pstmt.executeQuery();
 
@@ -167,127 +168,117 @@
                       while ( rs1.next() ) {
 
                         %>
-                        <tr><th>Info for student:</th></tr>
-                        <tr>
-                            <th>SocialSecurity</th>
-                            <th>FirstName</th>
-                            <th>MiddleName</th>
-                            <th>LastName</th>
-                        </tr>
+                        <tr><th>Units</th></tr>
                       <tr>
                           <form action="degreeRequirementforBSC.jsp" method="get">
 
 
                               <%-- Get the SSN, which is a number --%>
                               <td>
-                                  <input value="<%= rs1.getInt("SocialSecurity") %>"
-                                      name="SocialSecurity" size="10">
-                              </td>
-
-
-                              <%-- Get the FIRSTNAME --%>
-                              <td>
-                                  <input value="<%= rs1.getString("FirstName") %>"
-                                      name="FirstName" size="20">
-                              </td>
-
-                              <td>
-                                  <input value="<%= rs1.getString("MiddleName") %>"
-                                      name="MiddleName" size="20">
-                              </td>
-
-
-                              <%-- Get the LASTNAME --%>
-                              <td>
-                                  <input value="<%= rs1.getString("LastName") %>"
-                                      name="LastName" size="20">
+                                  <input value="<%= rs1.getInt("units") %>"
+                                      name="units" size="10">
                               </td>
                           </form>
                       </tr>
                       <%
                       }
-
-                    //
-                    PreparedStatement pstmt1 = conn.prepareStatement(
-                        "SELECT DISTINCT Title, classes.CourseNumber,quarter,year,MeetingTimeLEC,MeetingTimeDIS,GRADEOPTION,UNITS FROM STUDENT,Enrollment,Classes,SECTION WHERE SocialSecurity = ? AND Student.FIRSTNAME = enrollment.firstname AND Enrollment.SECTIONNUMBER = SECTION.SECTIONNUMBER AND SECTION.CourseNumber = classes.CourseNumber");
-                    pstmt1.setInt(
-                        1, Integer.parseInt(request.getParameter("SocialSecurity")));
-
-                    rs2 = pstmt1.executeQuery();
-
-                    %>
-                    <tr><th>His classes in current quarter:</th></tr>
-                    <tr>
-                        <th>Title</th>
-                        <th>CourseNumber</th>
-                        <th>Quarter</th>
-                        <th>Year</th>
-                        <th>MeetingTime Lecture</th>
-                        <th>MeetingTime Discussion</th>
-                        <th>Grade Option</th>
-                        <th>Units</th>
-                    </tr>
-                    <%
-                    while ( rs2.next() ) {
-
-                      %>
-
-                    <tr>
-                        <form action="degreeRequirementforBSC.jsp" method="get">
-                            <input type="hidden" value="update" name="action">
-
-
-                            <td>
-                                <input value="<%= rs2.getString("Title") %>"
-                                    name="Title" size="30">
-                            </td>
-
-
-                            <%-- Get the FIRSTNAME --%>
-                            <td>
-                                <input value="<%= rs2.getString("CourseNumber") %>"
-                                    name="CourseNumber" size="20">
-                            </td>
-
-                            <td>
-                                <input value="<%= rs2.getString("Quarter") %>"
-                                    name="Quarter" size="20">
-                            </td>
-
-
-                            <%-- Get the LASTNAME --%>
-                            <td>
-                                <input value="<%= rs2.getInt("Year") %>"
-                                    name="Year" size="20">
-                            </td>
-
-                            <td>
-                                <input value="<%= rs2.getString("MeetingTimeLEC") %>"
-                                    name="MeetingTimeLEC" size="20">
-                            </td>
-
-                            <td>
-                                <input value="<%= rs2.getString("MeetingTimeDIS") %>"
-                                    name="MeetingTimeDIS" size="20">
-                            </td>
-
-
-
-                            <td>
-                                <input value="<%= rs2.getString("GRADEOPTION") %>"
-                                    name="GRADEOPTION" size="20">
-                            </td>
-
-                            <td>
-                                <input value="<%= rs2.getInt("UNITS") %>"
-                                    name="UNITS" size="20">
-                            </td>
-                        </form>
-                    </tr>
-                    <%
                     }
+
+                    String action1 = request.getParameter("action");
+
+                    if (action != null && action1.equals("query")) {
+                       PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.lowerdivunits from degreerequirement where degreerequirement.degreename = ?)-(Select sum(schedule.unit) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category = ? AND courseNumberTable.level = 'lower' AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
+                      pstmt.setString(1, request.getParameter("Degreename"));
+                      pstmt.setString(2, request.getParameter("Degreename"));
+                      pstmt.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
+
+                      rs1 = pstmt.executeQuery();
+
+
+                      while ( rs1.next() ) {
+
+                        %>
+                        <tr><th>lower Units</th></tr>
+                      <tr>
+                          <form action="degreeRequirementforBSC.jsp" method="get">
+
+
+                              <%-- Get the SSN, which is a number --%>
+                              <td>
+                                  <input value="<%= rs1.getInt("units") %>"
+                                      name="units" size="10">
+                              </td>
+                          </form>
+                      </tr>
+                      <%
+
                     }
-            %>
+                  }
+
+
+            String action2 = request.getParameter("action");
+
+            if (action != null && action2.equals("query")) {
+               PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.upperdivunits from degreerequirement where degreerequirement.degreename = ?)-(Select sum(schedule.unit) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category = ? AND courseNumberTable.level = 'upper' AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
+              pstmt.setString(1, request.getParameter("Degreename"));
+              pstmt.setString(2, request.getParameter("Degreename"));
+              pstmt.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
+
+              rs1 = pstmt.executeQuery();
+
+
+              while ( rs1.next() ) {
+
+                %>
+                <tr><th>upper Units</th></tr>
+              <tr>
+                  <form action="degreeRequirementforBSC.jsp" method="get">
+
+
+                      <%-- Get the SSN, which is a number --%>
+                      <td>
+                          <input value="<%= rs1.getInt("units") %>"
+                              name="units" size="10">
+                      </td>
+                  </form>
+              </tr>
+              <%
+
+            }
+          }
+
+          String action3 = request.getParameter("action");
+
+          if (action != null && action3.equals("query")) {
+             PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.techunits from degreerequirement where degreerequirement.degreename = ?)-(Select COALESCE(sum(schedule.unit), 0) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category != ? AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
+            pstmt.setString(1, request.getParameter("Degreename"));
+            pstmt.setString(2, request.getParameter("Degreename"));
+            pstmt.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
+
+            rs1 = pstmt.executeQuery();
+
+
+            while ( rs1.next() ) {
+
+              %>
+              <tr><th>tech Units</th></tr>
+            <tr>
+                <form action="degreeRequirementforBSC.jsp" method="get">
+
+
+                    <%-- Get the SSN, which is a number --%>
+                    <td>
+                        <input value="<%= rs1.getInt("units") %>"
+                            name="units" size="10">
+                    </td>
+                </form>
+            </tr>
+            <%
+
+          }
+        }
+
+    %>
 
 
             <%-- -------- Close Connection Code -------- --%>
