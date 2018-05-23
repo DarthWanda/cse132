@@ -159,7 +159,7 @@
 
                     //
                     PreparedStatement pstmt1 = conn.prepareStatement(
-                        "SELECT DISTINCT Classes.Title, Schedule.Grade, Schedule.quarteryear FROM Classes, Schedule, Student WHERE SocialSecurity = ? AND STUDENT.SocialSecurity = Student.pid AND Student.pid=Schedule.pid AND Schedule.sectionID = Classes.SectionID");
+                        "select coursenumber,quarteryear, unit, gradeoption, grade, gradeint from schedule where schedule.firstname in (Select firstname from student where socialsecurity = ?) order by quarteryear");
                     pstmt1.setInt(
                         1, Integer.parseInt(request.getParameter("SocialSecurity")));
 
@@ -168,9 +168,12 @@
                     %>
                     <tr><th>His classes taken:</th></tr>
                     <tr>
-                        <th>Title</th>
-                        <th>Grade</th>
-                        <th>Quarter/Year</th>
+                        <th>coursenumber</th>
+                        <th>quarteryear</th>
+                        <th>unit</th>
+                        <th>gradeoption</th>
+                        <th>grade</th>
+                        <th>Gradeint</th>
                     </tr>
                     <%
                     while ( rs2.next() ) {
@@ -183,8 +186,8 @@
 
 
                             <td>
-                                <input value="<%= rs2.getString("Title") %>"
-                                    name="Title" size="30">
+                                <input value="<%= rs2.getString("coursenumber") %>"
+                                    name="coursenumber" size="30">
                             </td>
 
 
@@ -198,6 +201,22 @@
                                 <input value="<%= rs2.getString("Quarteryear") %>"
                                     name="Quarter/Year" size="20">
                             </td>
+                            <td>
+                                <input value="<%= rs2.getString("unit") %>"
+                                    name="unit" size="20">
+                            </td>
+                            <td>
+                                <input value="<%= rs2.getString("gradeoption") %>"
+                                    name="gradeoption" size="20">
+                            </td>
+                            <td>
+                                <input value="<%= rs2.getString("grade") %>"
+                                    name="grade" size="20">
+                            </td>
+                            <td>
+                                <input value="<%= rs2.getString("gradeint") %>"
+                                    name="gradeint" size="20">
+                            </td>
 
                         </form>
                     </tr>
@@ -207,7 +226,7 @@
 
                     // calculate GPA
                     PreparedStatement pstmt2 = conn.prepareStatement(
-                        "SELECT ROUND(AVG(Schedule.Grade),2) as GPA FROM Classes, Schedule, Student WHERE Student.socialSecurity = ? AND STUDENT.SocialSecurity = Student.pid AND Student.pid=Schedule.pid AND Schedule.sectionID = Classes.SectionID");
+                        "SELECT ROUND(AVG(Schedule.Gradeint),2) as GPA FROM  schedule where schedule.firstname in (Select firstname from student where socialsecurity = ?)");
                     pstmt2.setInt(
                         1, Integer.parseInt(request.getParameter("SocialSecurity")));
 
@@ -238,7 +257,7 @@
 
                     // calculate gpa by quarter
                     PreparedStatement pstmt3 = conn.prepareStatement(
-                        "SELECT Schedule.QuarterYear, ROUND(AVG(Schedule.Grade),2) as GPA FROM Classes, Schedule, Student WHERE Student.socialSecurity = ? AND STUDENT.SocialSecurity = Student.pid AND Student.pid=Schedule.pid AND Schedule.sectionID = Classes.SectionID Group by Schedule.QuarterYEar");
+                        "SELECT Schedule.QuarterYEar, ROUND(AVG(Schedule.Gradeint),2) as GPA FROM  schedule where schedule.firstname in (Select firstname from student where socialsecurity = ?) Group by Schedule.QuarterYEar");
                     pstmt3.setInt(
                         1, Integer.parseInt(request.getParameter("SocialSecurity")));
 
