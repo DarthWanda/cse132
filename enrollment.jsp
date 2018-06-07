@@ -34,12 +34,12 @@
                         // Create the prepared statement and use it to
                         // INSERT the student attributes INTO the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "INSERT INTO Enrollment VALUES (?, ?, ?)");
+                            "INSERT INTO Enrollment VALUES (?, ?, ?,?)");
 
-
-                       pstmt.setInt(1, Integer.parseInt(request.getParameter("PID")));
-                       pstmt.setInt(2, Integer.parseInt(request.getParameter("COURSEID")));
-                       pstmt.setInt(3, Integer.parseInt(request.getParameter("WAITLIST")));
+                       pstmt.setString(1, request.getParameter("FIRSTNAME"));
+                       pstmt.setInt(2, Integer.parseInt(request.getParameter("SECTIONNUMBER")));
+                       pstmt.setString(3, request.getParameter("GRADEOPTION"));
+                       pstmt.setInt(4, Integer.parseInt(request.getParameter("UNITS")));
 
                         int rowCount = pstmt.executeUpdate();
 
@@ -60,13 +60,14 @@
                         // Create the prepared statement and use it to
                         // UPDATE the student attributes in the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "UPDATE Enrollment SET WAITLIST = ? WHERE PID= ? AND COURSEID = ?");
+                            "UPDATE Enrollment SET GRADEOPTION  = ?, UNITS = ? WHERE FIRSTNAME = ? AND SECTIONNUMBER = ?");
 
 
+                            pstmt.setString(1, request.getParameter("GRADEOPTION"));
+                            pstmt.setInt(2, Integer.parseInt(request.getParameter("UNITS")));
+                            pstmt.setString(3, request.getParameter("FIRSTNAME"));
+                            pstmt.setInt(4, Integer.parseInt(request.getParameter("SECTIONNUMBER")));
 
-                        pstmt.setInt(1, Integer.parseInt(request.getParameter("WAITLIST")));
-                        pstmt.setInt(2, Integer.parseInt(request.getParameter("PID")));
-                        pstmt.setInt(3, Integer.parseInt(request.getParameter("COURSEID")));
 
                         int rowCount = pstmt.executeUpdate();
 
@@ -87,10 +88,10 @@
                         // Create the prepared statement and use it to
                         // DELETE the student FROM the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "DELETE FROM Enrollment WHERE PID= ? AND COURSEID = ?");
+                            "DELETE FROM Enrollment WHERE FIRSTNAME = ? AND SECTIONNUMBER = ?");
 
-                            pstmt.setInt(1, Integer.parseInt(request.getParameter("PID")));
-                            pstmt.setInt(2, Integer.parseInt(request.getParameter("COURSEID")));
+                            pstmt.setString(1, request.getParameter("FIRSTNAME"));
+                            pstmt.setInt(2, Integer.parseInt(request.getParameter("SECTIONNUMBER")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -113,16 +114,18 @@
             <!-- Add an HTML table header row to format the results -->
                 <table border="1">
                     <tr>
-                        <th>PID</th>
-                        <th>COURSEID</th>
-                        <th>WAITLIST</th>
+                        <th>FIRSTNAME</th>
+                        <th>SECTIONNUMBER</th>
+                        <th>GRADEOPTION</th>
+                        <th>UNITS</th>
                     </tr>
                     <tr>
                         <form action="enrollment.jsp" method="get">
                             <input type="hidden" value="insert" name="action">
-                            <th><input value="" name="PID" size="10"></th>
-                            <th><input value="" name="COURSEID" size="15"></th>
-                            <th><input value="" name="WAITLIST" size="15"></th>
+                            <th><input value="" name="FIRSTNAME" size="10"></th>
+                            <th><input value="" name="SECTIONNUMBER" size="15"></th>
+                            <th><input value="" name="GRADEOPTION" size="15"></th>
+                            <th><input value="" name="UNITS" size="15"></th>
                             <th><input type="submit" value="Insert"></th>
                         </form>
                     </tr>
@@ -139,22 +142,27 @@
                         <form action="enrollment.jsp" method="get">
                             <input type="hidden" value="update" name="action">
 
-                            <%-- Get the SSN, which is a number --%>
                             <td>
-                                <input value="<%= rs.getInt("PID") %>"
-                                    name="PID" size="10">
-
+                                <input value="<%= rs.getString("FIRSTNAME") %>"
+                                    name="FIRSTNAME" size="10">
                             </td>
 
-                            <%-- Get the ID --%>
-                            <td>
-                                <input value="<%= rs.getInt("COURSEID") %>"
-                                    name="COURSEID" size="10">
-                            </td>
 
                             <td>
-                                <input value="<%= rs.getInt("WAITLIST") %>"
-                                    name="WAITLIST" size="10">
+                                <input value="<%= rs.getInt("SECTIONNUMBER") %>"
+                                    name="SECTIONNUMBER" size="10">
+                            </td>
+
+
+                            <td>
+                                <input value="<%= rs.getString("GRADEOPTION") %>"
+                                    name="GRADEOPTION" size="10">
+                            </td>
+
+
+                            <td>
+                                <input value="<%= rs.getInt("UNITS") %>"
+                                    name="UNITS" size="10">
                             </td>
 
 
@@ -167,9 +175,9 @@
                         <form action="enrollment.jsp" method="get">
                             <input type="hidden" value="delete" name="action">
                             <input type="hidden"
-                                value="<%= rs.getInt("PID") %>" name="PID">
+                                value="<%= rs.getString("FIRSTNAME") %>" name="FIRSTNAME">
                             <input type="hidden"
-                                value="<%= rs.getInt("COURSEID") %>" name="COURSEID">
+                                value="<%= rs.getInt("SECTIONNUMBER") %>" name="SECTIONNUMBER">
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Delete">
