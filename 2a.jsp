@@ -240,21 +240,18 @@
                     }
 
                     PreparedStatement pstmt2 = conn.prepareStatement(
-                        "SELECT DISTINCT Title, classes.CourseNumber  " +
+                        "SELECT Title, classes.CourseNumber  " +
                          "FROM Classes,SECTION " +
                          "WHERE SECTION.CourseNumber = classes.CourseNumber" +
                          " AND " +
-                         " (SECTION.MeetingTimeLEC = (SELECT DISTINCT SECTION.MeetingTimeLEC FROM STUDENT,Enrollment,Classes,SECTION WHERE SocialSecurity = ? AND Student.FIRSTNAME = enrollment.firstname AND Enrollment.SECTIONNUMBER = SECTION.SECTIONNUMBER AND SECTION.CourseNumber = classes.CourseNumber)" +
-                         " OR SECTION.MeetingTimeLEC = (SELECT DISTINCT SECTION.MeetingTimeDIS FROM STUDENT,Enrollment,Classes,SECTION WHERE SocialSecurity = ? AND Student.FIRSTNAME = enrollment.firstname AND Enrollment.SECTIONNUMBER = SECTION.SECTIONNUMBER AND SECTION.CourseNumber = classes.CourseNumber)" +
-                         " OR SECTION.MeetingTimeDIS = (SELECT DISTINCT SECTION.MeetingTimeLEC FROM STUDENT,Enrollment,Classes,SECTION WHERE SocialSecurity = ? AND Student.FIRSTNAME = enrollment.firstname AND Enrollment.SECTIONNUMBER = SECTION.SECTIONNUMBER AND SECTION.CourseNumber = classes.CourseNumber)" +
-                         " OR SECTION.MeetingTimeDIS = (SELECT DISTINCT SECTION.MeetingTimeDIS FROM STUDENT,Enrollment,Classes,SECTION WHERE SocialSecurity = ? AND Student.FIRSTNAME = enrollment.firstname AND Enrollment.SECTIONNUMBER = SECTION.SECTIONNUMBER AND SECTION.CourseNumber = classes.CourseNumber))"
+                         " (SECTION.MeetingTimeLEC in (SELECT SECTION.MeetingTimeLEC FROM STUDENT,Enrollment,Classes,SECTION WHERE SocialSecurity = ? AND Student.FIRSTNAME = enrollment.firstname AND Enrollment.SECTIONNUMBER = SECTION.SECTIONNUMBER AND SECTION.CourseNumber = classes.CourseNumber))"
 
                          );
 
                     pstmt2.setInt(1, Integer.parseInt(request.getParameter("SocialSecurity")));
-                    pstmt2.setInt(2, Integer.parseInt(request.getParameter("SocialSecurity")));
-                    pstmt2.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
-                    pstmt2.setInt(4, Integer.parseInt(request.getParameter("SocialSecurity")));
+                    // pstmt2.setInt(2, Integer.parseInt(request.getParameter("SocialSecurity")));
+                    // pstmt2.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
+                    // pstmt2.setInt(4, Integer.parseInt(request.getParameter("SocialSecurity")));
                     rs3 = pstmt2.executeQuery();
 
 

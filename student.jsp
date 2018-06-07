@@ -35,9 +35,8 @@
                         // INSERT the student attributes INTO the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
                             "INSERT INTO Student VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-                        pstmt.setInt(1, Integer.parseInt(request.getParameter("SocialSecurity")));
-                        pstmt.setInt(2, Integer.parseInt(request.getParameter("PID")));
+                        pstmt.setInt(1, Integer.parseInt(request.getParameter("PID")));
+                        pstmt.setInt(2, Integer.parseInt(request.getParameter("SocialSecurity")));
                         pstmt.setString(3, request.getParameter("FirstName"));
                         pstmt.setString(4, request.getParameter("MiddleName"));
                         pstmt.setString(5, request.getParameter("LastName"));
@@ -67,16 +66,14 @@
                         // Create the prepared statement and use it to
                         // UPDATE the student attributes in the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "UPDATE Student SET ID = ?, FIRSTNAME = ?, " +
-                            "MIDDLENAME = ?, LASTNAME = ?, RESIDENCY = ? WHERE SSN = ?");
+                            "UPDATE Student SET FIRSTNAME = ?, " +
+                            "LASTNAME = ?, PROGRAM = ? WHERE SocialSecurity = ?");
 
-                        pstmt.setInt(1, Integer.parseInt(request.getParameter("ID")));
-                        pstmt.setString(2, request.getParameter("FIRSTNAME"));
-                        pstmt.setString(3, request.getParameter("MIDDLENAME"));
-                        pstmt.setString(4, request.getParameter("LASTNAME"));
-                        pstmt.setString(5, request.getParameter("RESIDENCY"));
-                        pstmt.setInt(
-                            6, Integer.parseInt(request.getParameter("SSN")));
+
+                        pstmt.setString(1, request.getParameter("FIRSTNAME"));
+                        pstmt.setString(2, request.getParameter("LASTNAME"));
+                        pstmt.setString(3, request.getParameter("PROGRAM"));
+                        pstmt.setInt(  4, Integer.parseInt(request.getParameter("SocialSecurity")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -87,19 +84,17 @@
 
             <%-- -------- DELETE Code -------- --%>
             <%
-                    // Check if a delete is requested
+
                     if (action != null && action.equals("delete")) {
 
                         // Begin transaction
                         conn.setAutoCommit(false);
 
-                        // Create the prepared statement and use it to
-                        // DELETE the student FROM the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "DELETE FROM Student WHERE SSN = ?");
+                            "DELETE FROM Student WHERE SocialSecurity = ?");
 
                         pstmt.setInt(
-                            1, Integer.parseInt(request.getParameter("SSN")));
+                            1, Integer.parseInt(request.getParameter("SocialSecurity")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -122,8 +117,8 @@
             <!-- Add an HTML table header row to format the results -->
                 <table border="1">
                     <tr>
-                        <th>PID</th>
                         <th>SocialSecurity</th>
+                        <th>PID</th>
                         <th>FirstName</th>
                         <th>MiddleName</th>
                         <th>LastName</th>
@@ -167,7 +162,7 @@
                         <form action="student.jsp" method="get">
                             <input type="hidden" value="update" name="action">
 
-                            <%-- Get the SSN, which is a number --%>
+                            <%-- Get the SocialSecurity, which is a number --%>
                             <td>
                                 <input value="<%= rs.getInt("SocialSecurity") %>"
                                     name="SocialSecurity" size="10">
@@ -179,16 +174,18 @@
                                     name="PID" size="10">
                             </td>
 
-                            <td>
-                                <input value="<%= rs.getString("MiddleName") %>"
-                                    name="MiddleName" size="20">
-                            </td>
-
                             <%-- Get the FIRSTNAME --%>
                             <td>
                                 <input value="<%= rs.getString("FirstName") %>"
                                     name="FirstName" size="20">
                             </td>
+
+                            <td>
+                                <input value="<%= rs.getString("MiddleName") %>"
+                                    name="MiddleName" size="20">
+                            </td>
+
+
 
                             <%-- Get the LASTNAME --%>
                             <td>
@@ -209,6 +206,12 @@
                                 <input value="<%= rs.getString("Major") %>"
                                     name="Major" size="20">
                             </td>
+
+                            <td>
+                                <input value="<%= rs.getString("Minor") %>"
+                                    name="Minor" size="20">
+                            </td>
+
                             <td>
                                 <input value="<%= rs.getString("Residency") %>"
                                     name="Residency" size="20">
@@ -227,10 +230,11 @@
                                 <input type="submit" value="Update">
                             </td>
                         </form>
+
                         <form action="student.jsp" method="get">
                             <input type="hidden" value="delete" name="action">
                             <input type="hidden"
-                                value="<%= rs.getInt("SSN") %>" name="SSN">
+                                value="<%= rs.getInt("SocialSecurity") %>" name="SocialSecurity">
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Delete">

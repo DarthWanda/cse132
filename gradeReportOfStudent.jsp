@@ -171,8 +171,8 @@
                         <th>coursenumber</th>
                         <th>quarteryear</th>
                         <th>unit</th>
-                        <th>gradeoption</th>
                         <th>grade</th>
+                        <th>gradeoption</th>
                         <th>Gradeint</th>
                     </tr>
                     <%

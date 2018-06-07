@@ -31,7 +31,17 @@ INSERT INTO classes (Title,CourseNumber,QuarterOffer,CurrentlyTaught,NextOffered
 INSERT INTO classes (Title,CourseNumber,QuarterOffer,CurrentlyTaught,NextOffered) VALUES ('SR', 'PHIL12',null,'1','sp2019');
 INSERT INTO classes (Title,CourseNumber,QuarterOffer,CurrentlyTaught,NextOffered) VALUES ('FEL', 'PHIL165','fa2017','1','sp2019');
 
+UPDATE classes SET QuarterOffer = 'wi2017,fa2017,wi2018'
+WHERE CourseNumber = 'CSE8A'
 
+UPDATE classes SET QuarterOffer = 'wi2017,fa2017,wi2018'
+WHERE CourseNumber = 'CSE8A'
+UPDATE classes SET QuarterOffer = 'wi2017,wi2018'
+WHERE CourseNumber = 'CSE250A'
+UPDATE classes SET QuarterOffer = 'wi2017,sp2017'
+WHERE CourseNumber = 'MAE108'
+UPDATE classes SET QuarterOffer = 'fa2017,wi2018'
+WHERE CourseNumber = 'PHIL165'
 drop Table courses;
 CREATE TABLE Courses(
 	CourseId int NOT NULL,
@@ -45,11 +55,6 @@ CREATE TABLE Courses(
 );
 
 
-CREATE TABLE Faculty(
-	NAME VARCHAR(20) NOT NULL,
-	Title VARCHAR(20),
- 	Primary Key (NAME)
-);
 
 drop Table TaughtBy;
 CREATE TABLE TaughtBy(
@@ -59,7 +64,7 @@ CREATE TABLE TaughtBy(
  	Primary Key (TeachID)
 );
 
-drop Table Schedule;
+drop Table Schedule; ////////
 CREATE TABLE Schedule(
   FIRSTNAME  VARCHAR(20) NOT NULL,
   COURSENUMBER VARCHAR(20),
@@ -74,7 +79,6 @@ CREATE TABLE Schedule(
   FOREIGN KEY (COURSENUMBER) REFERENCES classes(COURSENUMBER)
 );
 
-<<<<<<< HEAD
 Insert into Schedule Values ('Benjamin', 'CSE8A','wi2017', 'Letter Grade',  4, 'A-', 3.7 );
 Insert into Schedule Values ('Daniel', 'CSE8A','wi2017', 'Letter Grade',  4, 'B+', 3.4 );
 Insert into Schedule Values ('Kristen', 'CSE8A','fa2017', 'Letter Grade',  4, 'C-', 1.9 );
@@ -110,18 +114,10 @@ Insert into Schedule Values ('Vikram', 'PHIL165','wi2018', 'Letter Grade',  4, '
 
 
 
-=======
-Insert into Schedule Values ('1', '1', 'letter', 'sp2018', 'A', '1' );
-Insert into Schedule Values ('2', '1', 'letter', 'sp2018', 'B', '2' );
-Insert into Schedule Values ('1', '2', 'letter', 'sp2018', 'A', '3' );
-Insert into Schedule Values ('1', '3', 'letter', 'fa2018', 'A', '4' );
-Insert into Schedule Values ('1', '4', 'letter', 'fa2018', 'A', '3' );
->>>>>>> e7a1b538f53740cececa5ff9b4b268907fc99e2e
 
 drop Table Enrollment;
 CREATE TABLE Enrollment(
 	FirstName VARCHAR(20) NOT NULL,
-  COURSENUMBER VARCHAR(20),
 	SECTIONNUMBER int NOT NULL,
   GRADEOPTION VARCHAR(20),
   Units INT,
@@ -151,6 +147,7 @@ INSERT INTO Enrollment VALUES ('Zach', 7,'S/U',4);
 INSERT INTO Enrollment VALUES ('Justin', 4,'Letter Grade',4);
 INSERT INTO Enrollment VALUES ('Rahul', 7,'Letter Grade',4);
 
+
 drop Table Section;
 CREATE TABLE SECTION(
   SECTIONNUMBER int NOT NULL,
@@ -173,17 +170,12 @@ INSERT INTO SECTION VALUES (8, 'MAE108','sp',2018,'TueThu 3:00pm');
 INSERT INTO SECTION VALUES (9, 'CSE221','sp',2018,'TueThu 5:00pm');
 INSERT INTO SECTION VALUES (10, 'CSE8A','sp',2018,'TueThu 5:00pm','W 7:00pm');
 
-/// Andy's Section
 
-
-/// Ajay Section
-drop Table Enrollment;
-drop table student;
 CREATE TABLE Student(
 	PID int,
   SocialSecurity int NOT NULL,
-  MiddleName VARCHAR(20),
   FirstName VARCHAR(20) NOT NULL UNIQUE,
+  MiddleName VARCHAR(20),
   LastName VARCHAR(20) NOT NULL,
   College VARCHAR(20),
   Enrolled VARCHAR(20),
@@ -209,8 +201,6 @@ INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (12, 'Rac
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (13, 'Zach','M','B.S in Computer Science');
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (14, 'Justin','H','B.S in Computer Science');
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (15, 'Rahul','R','B.S in Computer Science');
-
-
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (16, 'Dave','C','M.S in Computer Science');
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (17, 'Nelson','H','M.S in Computer Science');
 INSERT INTO Student (SocialSecurity,FirstName,LastName,Program) VALUES (18, 'Andrew','P','M.S in Computer Science');
@@ -251,24 +241,6 @@ Create Table ReviewSession(
   Primary Key (SectionID)
 );
 
-Create Table DegreeRequirement(
-  Name VARCHAR(20) NOT NULL,
-  UnitsRequired INT NOT NULL,
-  MinGrade VARCHAR(20) NOT NULL,
-  Category1 VARCHAR(20),
-  UnitsRequired1 INT,
-  MinGrade1 VARCHAR(20),
-  Category2 VARCHAR(20),
-  UnitsRequired2 INT,
-  MinGrade2 VARCHAR(20),
-  Category3 VARCHAR(20),
-  UnitsRequired3 INT,
-  MinGrade3 VARCHAR(20),
-  Concentration VARCHAR(20),
-  ConcentrationUnits INT,
-  ConcentrationMinGrade VARCHAR(20),
-  Primary Key (Name)
-);
 
 Create Table Clubs(
   ClubID INT NOT NULL,
@@ -279,8 +251,83 @@ Create Table Clubs(
   Primary Key (Name)
 );
 
-/// end ajay section
+Create Table DegreeRequirement(
+  DegreeName VARCHAR(40) NOT NULL,
+  TotalUnits INT NOT NULL,
+  LowerDivUnits INT NOT NULL,
+  UpperDivUnits INT NOT NULL,
+  TechUnits INT NOT NULL,
+  GradUnits INT NOT NULL,
+  Primary Key (DegreeName)
+);
+
+Insert into DegreeRequirement VALUES ('B.S. in Computer Science', 40, 10, 15, 15, 0);
+Insert into DegreeRequirement VALUES ('B.A. in Philosophy', 35, 15, 20, 0, 0);
+Insert into DegreeRequirement VALUES ('B.S. in Mechanical Engineering', 50, 20, 20, 10, 0);
+Insert into DegreeRequirement VALUES ('M.S. in Computer Science', 45, 0, 0, 0, 45);
 
 
-//insert Statement
-//insert to studet
+
+drop table facultyteaching;
+CREATE TABLE FacultyTeaching(
+	NAME VARCHAR(20) NOT NULL,
+	CourseNumber VARCHAR(20),
+	Section VARCHAR(20),
+	QuarterYear VARCHAR(20) NOT NULL
+);
+
+Insert into FacultyTeaching VALUES ( 'Justin Bieber', 'CSE8A', null, 'wi2017');
+Insert into FacultyTeaching VALUES ( 'Flo Rida', 'PHIL165', null, 'fa2017');
+Insert into FacultyTeaching VALUES ( 'Selena Gomez', 'CSE8A', null, 'fa2017');
+Insert into FacultyTeaching VALUES ( 'Adele', 'MAE108', 1, 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Taylor Swift', 'CSE105', null, 'sp2017');
+Insert into FacultyTeaching VALUES ( 'Kelly Clarkson', 'CSE8A', null, 'wi2018');
+Insert into FacultyTeaching VALUES ( 'Bjork', 'CSE250A', null, 'wi2017');
+Insert into FacultyTeaching VALUES ( 'Bjork', 'PHIL10', null, 'wi2018');
+Insert into FacultyTeaching VALUES ( 'Justin Bieber', 'CSE250B', null, 'sp2017');
+Insert into FacultyTeaching VALUES ( 'Flo Rida ',  'CSE255 ',  '3', 'sp2018');
+Insert into FacultyTeaching VALUES ('Selena Gomez','MAE108','8','sp2018');
+Insert into FacultyTeaching VALUES ( 'Adele','	CSE8A', '10', 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Taylor Swift','CSE105', '6', 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Kelly Clarkson', 'CSE232A' ,null, 'wi2018');
+Insert into FacultyTeaching VALUES ( 'Adam Levine', 'PHIL165', null, 'wi2018');
+Insert into FacultyTeaching VALUES ( 'Bjork', 'MAE107', null, 'fa2017');
+Insert into FacultyTeaching VALUES ( 'Justin Bieber', 'CSE221', '9', 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Selena Gomez', 'MAE108', null, 'wi2017');
+Insert into FacultyTeaching VALUES ( 'Adam Levine', 'PHIL12', '4', 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Bjork', 'CSE250A', null, 'wi2018');
+Insert into FacultyTeaching VALUES ( 'Adam Levine', 'PHIL165', '7', 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Kelly Clarkson', 'CSE221', '2', 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Kelly Clarkson', 'CSE221', '5', 'sp2018');
+Insert into FacultyTeaching VALUES ( 'Justin Bieber', 'CSE255', null, 'wi2018');
+Insert into FacultyTeaching VALUES ( 'Justin Bieber', 'CSE 221', null, 'fa2017');
+Insert into FacultyTeaching VALUES ( 'Selena Gomez', 'MAE108', null, 'sp2017');
+
+
+CREATE TABLE event(
+  time varchar(15),
+  MONDAY int,
+  TUESDAY  int,
+  WEDNESDAY  int,
+  THURSDAY  int,
+  FRIDAY int
+);
+
+
+insert into event VALUES ( '8am', 0, 0, 0, 0, 0);
+insert into event VALUES ( '9am', 0, 0, 0, 0, 0);
+insert into event VALUES ( '10am', 1, 0, 1, 0, 1);
+insert into event VALUES ( '10am', 2, 0, 2, 0, 2);
+insert into event VALUES ( '11am', 0, 0, 0, 0, 0);
+insert into event VALUES ( '12am', 3, 0, 3, 0, 3);
+insert into event VALUES ( '12am', 4, 0, 4, 0, 4);
+insert into event VALUES ( '12am', 5, 0, 5, 0, 5);
+insert into event VALUES ( '1pm', 0, 0, 0, 0, 0);
+insert into event VALUES ( '2pm', 0, 6, 0, 6, 0);
+insert into event VALUES ( '3pm', 0, 7, 0, 7, 0);
+insert into event VALUES ( '3pm', 0, 8, 0, 8, 0);
+insert into event VALUES ( '4pm', 0, 0, 0, 0, 0);
+insert into event VALUES ( '5pm', 0, 9, 0, 9, 0);
+insert into event VALUES ( '5pm', 0, 10, 0, 10, 0);
+insert into event VALUES ( '6pm', 0, 0, 0, 0, 0);
+insert into event VALUES ( '7pm', 0, 0, 0, 0, 0);
