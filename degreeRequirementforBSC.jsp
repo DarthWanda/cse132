@@ -187,7 +187,7 @@
                     String action1 = request.getParameter("action");
 
                     if (action != null && action1.equals("query")) {
-                       PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.lowerdivunits from degreerequirement where degreerequirement.degreename = ?)-(Select sum(schedule.unit) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category = ? AND courseNumberTable.level = 'lower' AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
+                       PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.lowerdivunits from degreerequirement where degreerequirement.degreename = ?)-(Select COALESCE(sum(schedule.unit), 0) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category = ? AND courseNumberTable.level = 'lower' AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
                       pstmt.setString(1, request.getParameter("Degreename"));
                       pstmt.setString(2, request.getParameter("Degreename"));
                       pstmt.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
@@ -219,7 +219,7 @@
             String action2 = request.getParameter("action");
 
             if (action != null && action2.equals("query")) {
-               PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.upperdivunits from degreerequirement where degreerequirement.degreename = ?)-(Select sum(schedule.unit) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category = ? AND courseNumberTable.level = 'upper' AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
+               PreparedStatement pstmt = conn.prepareStatement("(select (select degreerequirement.upperdivunits from degreerequirement where degreerequirement.degreename = ?)-(Select COALESCE(sum(schedule.unit), 0) from schedule, courseNumberTable, student where courseNumberTable.courseNumber=schedule.courseNumber AND courseNumberTable.Category = ? AND courseNumberTable.level = 'upper' AND schedule.firstname = student.firstname AND schedule.firstname IN (select student.firstname from student where student.socialsecurity = ?)) as units)");
               pstmt.setString(1, request.getParameter("Degreename"));
               pstmt.setString(2, request.getParameter("Degreename"));
               pstmt.setInt(3, Integer.parseInt(request.getParameter("SocialSecurity")));
