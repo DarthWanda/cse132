@@ -65,7 +65,7 @@
                         pstmt.setString(2, request.getParameter("coursenumber"));
 
                         pstmt.setString(3, request.getParameter("section"));
-                        pstmt.setString(4, request.getParameter("quateryear"));
+                        pstmt.setString(4, request.getParameter("quarteryear"));
 
                         int rowCount = pstmt.executeUpdate();
 
