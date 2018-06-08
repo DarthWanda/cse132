@@ -37,12 +37,12 @@
                             "INSERT INTO degreerequirement VALUES (?, ?, ?, ?, ?, ?)");
 
 
-                        pstmt.setString(1, request.getParameter("degreename"));
+                        pstmt.setString(1, request.getParameter("DegreeName"));
                         pstmt.setInt(2, Integer.parseInt(request.getParameter("TotalUnits")));
                         pstmt.setInt(3, Integer.parseInt(request.getParameter("LowerDivUnits")));
                         pstmt.setInt(4, Integer.parseInt(request.getParameter("UpperDivUnits")));
                         pstmt.setInt(5, Integer.parseInt(request.getParameter("TechUnits")));
-                        pstmt.setInt(6, Integer.parseInt(request.getParameter("gradUnits")));
+                        pstmt.setInt(6, Integer.parseInt(request.getParameter("GradUnits")));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -69,7 +69,7 @@
                         pstmt.setInt(2, Integer.parseInt(request.getParameter("LowerDivUnits")));
                         pstmt.setInt(3, Integer.parseInt(request.getParameter("UpperDivUnits")));
                         pstmt.setInt(4, Integer.parseInt(request.getParameter("TechUnits")));
-                        pstmt.setInt(5, Integer.parseInt(request.getParameter("gradUnits")));
+                        pstmt.setInt(5, Integer.parseInt(request.getParameter("GradUnits")));
                         pstmt.setString(6, request.getParameter("DegreeName"));
                         int rowCount = pstmt.executeUpdate();
 
@@ -170,8 +170,8 @@
                                     name="TechUnits" size="20">
                             </td>
                             <td>
-                                <input value="<%= rs.getInt("gradUnits") %>"
-                                    name="gradUnits" size="20">
+                                <input value="<%= rs.getInt("GradUnits") %>"
+                                    name="GradUnits" size="20">
                             </td>
 
                             <%-- Button --%>

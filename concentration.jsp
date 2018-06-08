@@ -38,7 +38,7 @@
 
 
                         pstmt.setString(1, request.getParameter("CourseName"));
-                        pstmt.setString(2, request.getParameter("name"));
+                        pstmt.setString(2, request.getParameter("Name"));
                         pstmt.setString(3, request.getParameter("Mingpa"));
                         pstmt.setString(4, request.getParameter("Minunits"));
                         int rowCount = pstmt.executeUpdate();
