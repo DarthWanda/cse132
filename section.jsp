@@ -161,11 +161,11 @@
                             </td>
                             <td>
                                 <input value="<%= rs.getString("MeetingTimeLEC") %>"
-                                    name="MeetingTimeLec" size="80">
+                                    name="MeetingTimeLEC" size="80">
                             </td>
                             <td>
                                 <input value="<%= rs.getString("MeetingTimeDIS") %>"
-                                    name="MeetingTimeDis" size="80">
+                                    name="MeetingTimeDIS" size="80">
                             </td>
                             <td>
                                 <input value="<%= rs.getString("MeetingTimeLAB") %>"

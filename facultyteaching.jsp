@@ -34,12 +34,13 @@
                         // Create the prepared statement and use it to
                         // INSERT the student attributes INTO the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "INSERT INTO facultyteaching VALUES (?, ?, ?, ?)");
+                            "INSERT INTO facultyteaching VALUES (?, ?, ?, ?, ?)");
 
-                        pstmt.setString(1, request.getParameter("name"));
-                        pstmt.setString(2, request.getParameter("coursenumber"));
-                        pstmt.setString(3, request.getParameter("section"));
-                        pstmt.setString(4, request.getParameter("Quarteryear"));
+                        pstmt.setString(1, request.getParameter("id"));
+                        pstmt.setString(2, request.getParameter("Name"));
+                        pstmt.setString(3, request.getParameter("CourseNumber"));
+                        pstmt.setString(4, request.getParameter("Section"));
+                        pstmt.setString(5, request.getParameter("QuarterYear"));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -59,13 +60,13 @@
                         // Create the prepared statement and use it to
                         // UPDATE the student attributes in the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "UPDATE facultyteaching WHERE NAME = ?, COURSENUMBER = ?, SECTION = ?, QUARTERYEAR = ?");
+                            "UPDATE facultyteaching SET Name = ?, CourseNumber = ?, Section = ?, QuarterYear = ? WHERE id = ?");
 
                         pstmt.setString(1, request.getParameter("Name"));
-                        pstmt.setString(2, request.getParameter("coursenumber"));
-
-                        pstmt.setString(3, request.getParameter("section"));
-                        pstmt.setString(4, request.getParameter("quateryear"));
+                        pstmt.setString(2, request.getParameter("CourseNumber"));
+                        pstmt.setString(3, request.getParameter("Section"));
+                        pstmt.setString(4, request.getParameter("QuarterYear"));
+                        pstmt.setString(5, request.getParameter("id"));
 
                         int rowCount = pstmt.executeUpdate();
 
@@ -86,9 +87,9 @@
                         // Create the prepared statement and use it to
                         // DELETE the student FROM the Student table.
                         PreparedStatement pstmt = conn.prepareStatement(
-                            "DELETE FROM facultyteaching WHERE NAME = ?");
+                            "DELETE FROM facultyteaching WHERE id = ?");
 
-                            pstmt.setString(1, request.getParameter("Name"));
+                            pstmt.setString(1, request.getParameter("id"));
                         int rowCount = pstmt.executeUpdate();
 
                         // Commit transaction
@@ -111,18 +112,20 @@
             <!-- Add an HTML table header row to format the results -->
                 <table border="1">
                     <tr>
+                        <th>id</th>
                         <th>Name</th>
-                        <th>Coursenumber</th>
+                        <th>CourseNumber</th>
                         <th>Section</th>
-                        <th>Quarteryear</th>
+                        <th>QuarterYear</th>
                     </tr>
                     <tr>
                         <form action="facultyteaching.jsp" method="get">
-                            <input type="hidden" value="insert" name="action">
-                            <th><input value="" name="Name" size="15"></th>
-                            <th><input value="" name="coursenumber" size="10"></th>
-                            <th><input value="" name="section" size="15"></th>
-                            <th><input value="" name="Quarteryear" size="15"></th>
+                            <input type="hidden" value="insert" Name="action">
+                            <th><input value="" Name="id" size="15"></th>
+                            <th><input value="" Name="Name" size="15"></th>
+                            <th><input value="" Name="CourseNumber" size="10"></th>
+                            <th><input value="" Name="Section" size="15"></th>
+                            <th><input value="" Name="QuarterYear" size="15"></th>
                             <th><input type="submit" value="Insert"></th>
                         </form>
                     </tr>
@@ -137,27 +140,31 @@
 
                     <tr>
                         <form action="facultyteaching.jsp" method="get">
-                            <input type="hidden" value="update" name="action">
+                            <input type="hidden" value="update" Name="action">
 
                             <%-- Get the SSN, which is a number --%>
                             <td>
-                                <input value="<%= rs.getString("Name") %>"
-                                    name="Name" size="10">
+                                <input value="<%= rs.getString("id") %>"
+                                    Name="id" size="10">
                             </td>
                             <td>
-                                <input value="<%= rs.getString("coursenumber") %>"
-                                    name="coursenumber" size="10">
+                                <input value="<%= rs.getString("Name") %>"
+                                    Name="Name" size="10">
+                            </td>
+                            <td>
+                                <input value="<%= rs.getString("CourseNumber") %>"
+                                    Name="CourseNumber" size="10">
                             </td>
 
                             <%-- Get the ID --%>
 
                             <td>
-                                <input value="<%= rs.getString("section") %>"
-                                    name="section" size="10">
+                                <input value="<%= rs.getString("Section") %>"
+                                    Name="Section" size="10">
                             </td>
                             <td>
-                                <input value="<%= rs.getString("Quarteryear") %>"
-                                    name="quarterYear" size="10">
+                                <input value="<%= rs.getString("QuarterYear") %>"
+                                    Name="QuarterYear" size="10">
                             </td>
 
                             <%-- Button --%>
@@ -166,9 +173,9 @@
                             </td>
                         </form>
                         <form action="facultyteaching.jsp" method="get">
-                            <input type="hidden" value="delete" name="action">
+                            <input type="hidden" value="delete" Name="action">
                             <input type="hidden"
-                                value="<%= rs.getString("Name") %>" name="Name">
+                                value="<%= rs.getString("id") %>" Name="id">
                             <%-- Button --%>
                             <td>
                                 <input type="submit" value="Delete">
